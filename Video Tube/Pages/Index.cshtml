@@ -1,0 +1,131 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+
+    var tags = new List<string>
+    {
+        "All",
+        "Stuff",
+        "People",
+        "Are",
+        "Interested",
+        "In",
+    };
+
+    var videoCount = 400;
+}
+
+<script>
+
+    function previewResize() {
+        var previewer = document.getElementById("previewer")
+
+        var windowWidth = window.innerWidth;
+        var perRow
+        if (windowWidth >= 1000) {
+            perRow = 5
+        } else if (windowWidth >= 750) {
+            perRow = 4
+        } else if (windowWidth >= 500) {
+            perRow = 3
+        } else if (windowWidth >= 250) {
+            perRow = 2
+        } else {
+            perRow = 1
+        }
+
+        let totalWidth = previewer.clientWidth - (15 * (perRow - 1))
+        let unitWidth = totalWidth / perRow
+        let unitHeight = 9 / 16 * unitWidth
+        console.log(previewer.clientWidth, perRow, unitWidth, unitHeight)
+
+        var previews = previewer.getElementsByClassName('preview')
+        for (var index = 0; index < previews.length; index ++) {
+            var preview = previews[index]
+            if ((index + 1) % perRow != 0) {
+                preview.style.marginRight = '15px'
+            } else {
+                preview.style.marginRight = '0px'
+            }
+            preview.style.width = `${unitWidth}px`;
+            preview.style.height = `${unitHeight}px`;
+        }
+    }
+
+    function init() {
+        window.addEventListener('resize', previewResize)
+    }
+</script>
+
+
+<div class="m-3 d-flex justify-content-between">
+    <div class="d-flex align-items-center">
+        <div class="me-4"><button class="btn"><i class="fa fa-list"></i></button></div>
+        <div class="fw-bold fs-4">BRAND</div>
+    </div>
+    <div class="d-flex w-50">
+        <div class="input-group me-3">
+            <input class="form-control" placeholder="Search" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px" />
+            <button class="btn btn-outline-secondary" type="button" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+        <button class="btn btn-outline-secondary rounded-circle" type="button">
+            <i class="fa fa-microphone"></i>
+        </button>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary border-0 rounded-circle me-2" type="button">
+            <i class="fa fa-bell"></i>
+        </button>
+        <button class="btn btn-danger rounded-circle">A</button>
+    </div>
+</div>
+<div class="d-flex">
+    <div class="d-flex flex-column mt-2" style="width:70px">
+        <div class="text-center mb-3">
+            <button class="btn btn-sm" style="width:calc(100% - 10px)"><i class="fa fa-home fa-lg"></i><div class="mt-1" style="font-size:10px">Home</div></button>
+        </div>
+        <div class="text-center mb-3">
+            <button class="btn btn-sm" style="width:calc(100% - 10px)"><i class="fa fa-atom fa-lg"></i><div class="mt-1" style="font-size:10px">Shorts</div></button>
+        </div>
+        <div class="text-center mb-3">
+            <button class="btn btn-sm mx-0 px-0" style="width:calc(100% - 10px)"><i class="fa fa-sun fa-lg"></i><div class="mt-1" style="font-size:10px">Subscriptions</div></button>
+        </div>
+        <div class="text-center mb-3">
+            <button class="btn btn-sm" style="width:calc(100% - 10px)"><i class="fa fa-book fa-lg"></i><div class="mt-1" style="font-size:10px">Library</div></button>
+        </div>
+    </div>
+    <div style="width:calc(100% - 70px)">
+        <div class="d-flex mb-3">
+            @for (var index = 0; index < tags.Count - 1; index++)
+            {
+                <button class="btn btn-outline-dark btn-sm rounded-3">@tags[index]</button>
+                <div class="ms-2"></div>
+            }
+            <button class="btn btn-outline-dark btn-sm rounded-3">@tags[tags.Count - 1]</button>
+        </div>
+        <div id="previewer" class="d-flex flex-wrap me-3">
+            <!--323x182-->
+            @for (var index = 0; index < videoCount; index++)
+            {
+                <div class="mb-5">
+                    <div class="preview border border-secondary rounded-3 d-flex justify-content-center align-items-center">VIDEO</div>
+                    <div class="d-flex align-items-start mt-2">
+                        <button class="btn rounded-circle btn-outline-primary mx-2 mb-2 btn-sm"><i class="fa fa-bathtub fa-lg"></i></button>
+                        <div>
+                            <div class="text-wrap">This is a video title</div>
+                            <div class="small text-secondary">Author</div>
+                            <div class="small text-secondary">Views &#x2022 Time</div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    previewResize()
+    init()
+</script>
